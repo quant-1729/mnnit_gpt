@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
               'Login to your account. Get easier than search engines results.',
               style: TextStyle(fontSize: 16.0, color: Colors.grey),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 15.0),
             Text(
               "Email",
               style: TextStyle(
@@ -161,15 +161,15 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 10,),
             SimpleButton(text: "Login", backroundcolor: AppColors.Button_background, textcolor: Colors.white, height: 60, onPressed: (){}, borderradius: 10, border_color: AppColors.Button_background),
-            SizedBox(height: 15,),
+            SizedBox(height: 10,),
             Center(
               child: Text("Or sign in with using", style: TextStyle(
                   color: Colors.grey, fontSize: 16
               ),),
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: 10,),
             FirstButton(
               text: 'Continue with Google',
               backroundcolor: Colors.white,
@@ -180,6 +180,22 @@ class _LoginPageState extends State<LoginPage> {
               icon: Icon(Icons.g_mobiledata, color: Colors.white,),
               circle_avatar_Color: AppColors.Button_background,
             ),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Don't have an account ?",style: TextStyle(
+                  fontSize: 16,color: AppColors.text_color
+                ),),
+                GestureDetector(
+                  onTap: (){},
+                  child:  Text(" Create an Account",style: TextStyle(
+                      fontSize: 16,color: AppColors.Button_background
+                  ),),
+                )
+
+              ],
+            )
             
           ],
         ),
