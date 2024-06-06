@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "861020086208",
+    "project_id": "mnnitgptauth",
+    "storage_bucket": "mnnitgptauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861020086208:android:cf8ef5ed7281abcd9a3225",
+        "android_client_info": {
+          "package_name": "com.example.mnnit_gpt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvdbrs-mPbVdrQUDsq1zADbvLkgqGNB1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mnnit_gpt/utils/constants.dart';
 import 'package:mnnit_gpt/Widgets/simple_button.dart';
+import 'package:mnnit_gpt/Views/drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Spacer(),
-            Text("Mnnit-Gpt", style: TextStyle(
+            const Text("Mnnit-Gpt", style: TextStyle(
                 fontSize: 18, color: AppColors.text_color,
               fontWeight: FontWeight.bold
             ),),
@@ -30,10 +31,21 @@ class _HomePageState extends State<HomePage> {
             SimpleButton(text: "Login", backroundcolor: AppColors.Button_background , textcolor: Colors.white, height: 18, onPressed: (){}, borderradius: 30, border_color: AppColors.Button_background)
           ],
         ),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
       ),
       drawer: Drawer(
-
-      ),
+       child: Drawer_home(),
+      )
+      ,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Container(
@@ -151,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                 color: AppColors.text_color,
                 fontSize: 12
             ),),
-            
+
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
