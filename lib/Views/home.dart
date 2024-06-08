@@ -6,6 +6,8 @@ import 'package:mnnit_gpt/utils/constants.dart';
 import 'package:mnnit_gpt/Widgets/simple_button.dart';
 import 'package:mnnit_gpt/Views/drawer.dart';
 
+
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -104,23 +106,6 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Microphone_icon(20),
-                    Spacer(),
-                    Flexible(child: Textinput("Ask somethign")),
-                    Spacer(),
-                    Sendicon(20)
-
-
-
-                  ],
-                ),
-              )
-
             ],
           ),
         ),
@@ -182,52 +167,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget Microphone_icon(double radius){
-    return GestureDetector(
-      onLongPress: (){
-        radius= radius+5;
-      },
-      child: CircleAvatar(
-        backgroundColor: AppColors.Button_background,
-        radius: radius,
-        child: Center(
-          child: Icon(Icons.mic, color: Colors.white,size: radius* 1.2, )
 
-        ),
-      ),
-    );
-  }
-  Widget Textinput(String hint){
-    return Container(
-      child: TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFFF5F5F6))
-          ),
-          fillColor: Color(0xFFF5F5F6),
-          filled: true,
-          hintText: "Ask what's on mind...",
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-          ),
-        ),
-
-      ),
-    );
-  }
-  Widget Sendicon (double radius){
-    return GestureDetector(
-      onTap: (){},
-      child: CircleAvatar(
-        backgroundColor: AppColors.Button_background,
-        radius: radius,
-        child: Center(
-            child: Icon(CupertinoIcons.paperplane_fill, color: Colors.white,size: radius* 1.2, )
-
-        ),
-      ),
-    );
-  }
 }

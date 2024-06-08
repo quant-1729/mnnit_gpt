@@ -6,7 +6,7 @@ import 'package:mnnit_gpt/Widgets/Wrapper.dart';
 Future<void> main() async {
   runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  Firebase.initializeApp();
 }
 
 class MyApp extends StatelessWidget {
