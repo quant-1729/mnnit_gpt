@@ -3,18 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mnnit_gpt/Widgets/First_button.dart';
 import 'package:mnnit_gpt/Widgets/simple_button.dart';
+import 'package:mnnit_gpt/models/user_model.dart';
 import 'package:mnnit_gpt/utils/constants.dart';
 import 'package:mnnit_gpt/functions/Auth.dart';
 
 Future<void> main() async {
-  runApp(SignUpPage());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  runApp(SignUpPage());
 }
 
 class SignUpPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,10 +28,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  // This is for the Login
+  UserModel userModel = UserModel();
   final _formkey = GlobalKey<FormState>();
-  String email="";
-  String password="";
+  String email = "";
+  String password = "";
   bool initialCheckBox = true;
   String passwordStrength = 'Weak';
 
@@ -49,7 +48,7 @@ class _SignUpState extends State<SignUp> {
             children: <Widget>[
               Text(
                 'Create an Account',
-                 style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
               Text(
@@ -74,17 +73,16 @@ class _SignUpState extends State<SignUp> {
                   padding: EdgeInsets.all(1),
                   child: TextFormField(
                     key: ValueKey('email'),
-                    validator: (value){
-                      if(!value.toString().contains('@')){
+                    validator: (value) {
+                      if (!value.toString().contains('@')) {
                         return "Not a valid email";
-                      }
-                      else{
+                      } else {
                         return null;
                       }
                     },
-                    onSaved: (value){
+                    onSaved: (value) {
                       setState(() {
-                        email=value.toString();
+                        email = value.toString();
                       });
                     },
                     keyboardType: TextInputType.emailAddress,
@@ -134,9 +132,9 @@ class _SignUpState extends State<SignUp> {
                       });
                       print('Password strength: $strength');
                     },
-                    onSaved: (value){
+                    onSaved: (value) {
                       setState(() {
-                        password=value.toString();
+                        password = value.toString();
                       });
                     },
                     decoration: InputDecoration(
@@ -178,30 +176,28 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               SizedBox(height: 10,),
-              SimpleButton(text: "Create Account", backroundcolor: AppColors.Button_background, textcolor: Colors.white, height: 60, onPressed: (){
-                if(_formkey.currentState!.validate()){
+              SimpleButton(text: "Create Account", backroundcolor: AppColors.Button_background, textcolor: Colors.white, height: 60, onPressed: () {
+                if (_formkey.currentState!.validate()) {
                   _formkey.currentState!.save();
+                  userModel.email = email;
                   Sign_Up(email, password);
                 }
-
               }, borderradius: 10, border_color: AppColors.Button_background),
               Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Already have an account ?",style: TextStyle(
-                      fontSize: 16,color: AppColors.text_color
+                  Text("Already have an account ?", style: TextStyle(
+                      fontSize: 16, color: AppColors.text_color
                   ),),
                   GestureDetector(
-                    onTap: (){},
-                    child:  Text("SignIn Instead",style: TextStyle(
-                        fontSize: 16,color: AppColors.Button_background
+                    onTap: () {},
+                    child: Text("SignIn Instead", style: TextStyle(
+                        fontSize: 16, color: AppColors.Button_background
                     ),),
                   )
-
                 ],
               )
-
             ],
           ),
         ),
@@ -209,7 +205,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  // Text and Color Settelement according to type
   String _calculatePasswordStrength(String password) {
     if (password.length < 8) {
       return 'Weak';
