@@ -1,7 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/chat_room_model.dart';
 import '../models/message_model.dart';
 import '../models/user_model.dart';
@@ -19,13 +21,13 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   TextEditingController messageController = TextEditingController();
 
-  void sendMessage() async {
+  Future<void> sendMessage() async {
     String msg = messageController.text.trim();
     messageController.clear();
 
-    if (msg != "") {
+    if (msg.isNotEmpty) {
+      // Send message to Firestore
       String messageId = Uuid().v4();
-
       MessageModel newMessage = MessageModel(
         messageid: messageId,
         createdon: DateTime.now(),
@@ -44,6 +46,51 @@ class _ChatPageState extends State<ChatPage> {
           .collection("chatrooms")
           .doc(widget.chatroom.chatroomid)
           .set(widget.chatroom.toMap());
+
+      // Send message to Rasa
+      String rasaResponse = await sendToRasa(msg);
+      if (rasaResponse.isNotEmpty) {
+        // Add Rasa's response to Firestore
+        String rasaMessageId = Uuid().v4();
+        MessageModel rasaMessage = MessageModel(
+          messageid: rasaMessageId,
+          createdon: DateTime.now(),
+          text: rasaResponse,
+        );
+        // Sending the reasa response to the firebase
+
+        await FirebaseFirestore.instance
+            .collection("chatrooms")
+            .doc(widget.chatroom.chatroomid)
+            .collection("messages")
+            .doc(rasaMessage.messageid)
+            .set(rasaMessage.toMap());
+      }
+    }
+  }
+
+  Future<String> sendToRasa(String message) async {
+    final url = Uri.parse('http://192.168.255.162:5005/webhooks/rest/webhook');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'sender': widget.chatroom.chatroomid,
+        'message': message,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> responseBody = jsonDecode(response.body);
+      if (responseBody.isNotEmpty) {
+        return responseBody[0]['text'];
+      } else {
+        return "No response from the server.";
+      }
+    } else {
+      throw Exception('Failed to get response from Rasa');
     }
   }
 

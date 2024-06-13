@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:mnnit_gpt/Views/intro_screen.dart';
 import 'package:mnnit_gpt/Views/login_page.dart';
 import 'package:mnnit_gpt/Views/home.dart';
-import 'package:mnnit_gpt/models/usermodel.dart';
+import 'package:mnnit_gpt/models/user_model.dart';
  class Wrapper extends StatelessWidget {
    Wrapper({super.key});
 
-
-   final UserModel userModel= UserModel(email: '', userid: '');
+   UserModel userModel= UserModel();
    Future<void> UserData() async{
+     WidgetsFlutterBinding.ensureInitialized();
+     Firebase.initializeApp();
      User? currentUser = FirebaseAuth.instance.currentUser;
      userModel.email= currentUser!.email;
-     userModel.userid= currentUser!.uid;
+     userModel.uid= currentUser!.uid;
      print(userModel.email);
 
    }
