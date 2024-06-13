@@ -6,7 +6,6 @@ import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/chat_room_model.dart';
 import '../models/message_model.dart';
-import '../models/user_model.dart';
 import '../utils/constants.dart';
 
 class ChatPage extends StatefulWidget {
@@ -29,6 +28,7 @@ class _ChatPageState extends State<ChatPage> {
       // Send message to Firestore
       String messageId = Uuid().v4();
       MessageModel newMessage = MessageModel(
+        sender: "user",
         messageid: messageId,
         createdon: DateTime.now(),
         text: msg,
@@ -53,6 +53,7 @@ class _ChatPageState extends State<ChatPage> {
         // Add Rasa's response to Firestore
         String rasaMessageId = Uuid().v4();
         MessageModel rasaMessage = MessageModel(
+          sender: "RASA",
           messageid: rasaMessageId,
           createdon: DateTime.now(),
           text: rasaResponse,
@@ -70,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<String> sendToRasa(String message) async {
-    final url = Uri.parse('http://192.168.255.162:5005/webhooks/rest/webhook');
+    final url = Uri.parse('http://0.0.0.0:5005/webhooks/rest/webhook');
     final response = await http.post(
       url,
       headers: {
@@ -120,23 +121,9 @@ class _ChatPageState extends State<ChatPage> {
                         itemBuilder: (context, index) {
                           MessageModel currentMessage = MessageModel.fromMap(dataSnapshot.docs[index].data() as Map<String, dynamic>);
 
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 2),
-                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Text(
-                                  currentMessage.text,
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          );
+                          return (currentMessage.sender=="RASA")? rasamessage(currentMessage.text, currentMessage.createdon.toString()):  usermessagecard(currentMessage.text, currentMessage.createdon
+                              .toString());
+
                         },
                       );
                     } else if (snapshot.hasError) {
@@ -222,3 +209,77 @@ Widget SendIcon(double radius, VoidCallback onTap) {
     ),
   );
 }
+
+Widget usermessagecard(String message, String dateandtime) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.Button_background ?? Colors.blue, // Ensure a fallback color
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Text(
+              message,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Text(
+            dateandtime,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 12,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget rasamessage(String message ,String dateandtime ){
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Image.asset('assests/chat_bot_assistant_icon.jpg', width: 14 , height:14,),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Flexible(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                message, style: TextStyle(
+                  color: AppColors.Button_background,
+                  fontSize: 20
+              ),
+              ),
+            ),
+          ),
+        ),
+        Text(dateandtime, style: TextStyle(
+            color: Colors.grey,
+            fontSize: 8
+        ),)
+      ],
+    ),
+  );
+}
+

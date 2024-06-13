@@ -13,6 +13,52 @@ class Drawer_home extends StatefulWidget {
 }
 
 class _Drawer_homeState extends State<Drawer_home> {
+  TextEditingController serch_controller= TextEditingController();
+  List<ChatRoomModel> chatRooms = [];
+  List<ChatRoomModel> filteredChatRooms = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchChatRooms();
+  }
+
+  // Fetching the chatrooms for search
+  void fetchChatRooms() async {
+    FirebaseFirestore.instance
+        .collection('chatrooms')
+        .snapshots()
+        .listen((snapshot) {
+      setState(() {
+        chatRooms = snapshot.docs.map((doc) {
+          return ChatRoomModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+        filteredChatRooms = chatRooms;
+      });
+    });
+  }
+
+  // Filtering the fetched chatrooms based on the textfield input and the firstmessage
+  void filterChatRooms(String query) async {
+    if (query.isEmpty) {
+      setState(() {
+        filteredChatRooms = chatRooms;
+      });
+    } else {
+      // Query Firestore for chat rooms where the first message starts with the search text
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('chatrooms')
+          .where('firstmessage', isGreaterThanOrEqualTo: query)
+          .where('firstmessage', isLessThanOrEqualTo: query + '\uf8ff')
+          .get();
+
+      setState(() {
+        filteredChatRooms = snapshot.docs.map((doc) {
+          return ChatRoomModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+      });
+    }
+  }
 
 
   _Drawer_homeState();
@@ -24,16 +70,21 @@ class _Drawer_homeState extends State<Drawer_home> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
+            controller: serch_controller,
             decoration: InputDecoration(
               hintText: "Search chat History",
               hintStyle: TextStyle(
                 color: Colors.grey,
                 fontSize: 12,
               ),
-              prefixIcon: Icon(
-                Icons.search_rounded,
-                size: 22,
-                color: Colors.grey,
+              prefixIcon: IconButton(
+                icon: Icon(
+                  Icons.search_rounded,
+                  size: 22,
+                  color: Colors.grey,
+                ), onPressed: () {
+                  filterChatRooms(serch_controller.text.toString());
+              },
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12)),
