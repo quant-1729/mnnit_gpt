@@ -71,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<String> sendToRasa(String message) async {
-    final url = Uri.parse('http://0.0.0.0:5005/webhooks/rest/webhook');
+    final url = Uri.parse('http://192.168.242.162:5005/webhooks/rest/webhook');
     final response = await http.post(
       url,
       headers: {
@@ -229,7 +229,7 @@ Widget usermessagecard(String message, String dateandtime) {
               message,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 16,
               ),
             ),
           ),
@@ -251,12 +251,13 @@ Widget usermessagecard(String message, String dateandtime) {
 
 Widget rasamessage(String message ,String dateandtime ){
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(16.0),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset('assests/chat_bot_assistant_icon.jpg', width: 14 , height:14,),
+        Image.asset('assests/chat_bot_assistant_icon.jpg', width: 40 , height:40,),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -268,7 +269,7 @@ Widget rasamessage(String message ,String dateandtime ){
               child: Text(
                 message, style: TextStyle(
                   color: AppColors.Button_background,
-                  fontSize: 20
+                  fontSize: 16
               ),
               ),
             ),
