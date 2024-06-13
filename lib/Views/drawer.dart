@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mnnit_gpt/models/chat_room_model.dart';
 import 'package:mnnit_gpt/utils/constants.dart';
 
 class Drawer_home extends StatefulWidget {
@@ -77,19 +79,46 @@ class _Drawer_homeState extends State<Drawer_home> {
           ),
           SizedBox(height: 10,),
           Divider(color: Colors.grey,),
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            reverse: true,
-            physics: ScrollPhysics(),
-            child: ListBody(
-              children: <Widget>[
-                ListTile(title: Text('Web Page Design - HTML/CSS')),
-                ListTile(title: Text('AI Impact On UI/UX Design')),
-                // Add more ListTiles for other list items
-              ],
-            ),
+          Expanded(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('chatrooms').snapshots(),
+              builder: (context, snapshot){
+                if(snapshot.connectionState==ConnectionState.active){
+                  QuerySnapshot datasnapshot= snapshot.data as QuerySnapshot;
+                  List<ChatRoomModel> chatrooms= datasnapshot.docs.map((doc){
+                    return ChatRoomModel.fromMap(doc.data() as Map<String, dynamic>);
+                  }).toList();
+
+                  return ListView.builder(
+                      itemCount: chatrooms.length,
+                      itemBuilder: (context, index){
+                        ChatRoomModel chatroom = chatrooms[index];
+                        return ListTile(
+                          title: Text(chatroom.firstmessage.toString()),
+                          onTap: (){
+                            //Navigating to the chatpage
+
+                          },
+
+                        );
+
+                      },
+                      );
 
 
+                }
+                else if(snapshot.hasError){
+                  return Center(
+                    child: Text("An error occured!"),
+                  );
+                }
+                else {
+                  return Center(
+                    child: Text("No conversation yet"),
+                  );
+                }
+              },
+            )
           )
         ],
       ),
