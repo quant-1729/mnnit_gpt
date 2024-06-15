@@ -95,7 +95,7 @@ class _Drawer_homeState extends State<Drawer_home> {
           Row(
             children: [
               Image.asset(
-                'assests/chat_bot_assistant_icon.jpg',
+                'assests/chat_bot_assistant_icon.png',
                 width: 20,
                 height: 20,
               ),

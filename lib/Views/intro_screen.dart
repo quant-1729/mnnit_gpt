@@ -13,7 +13,7 @@ class IntoScreen extends StatelessWidget {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),
-          child: Image.asset('assests/chat_bot_assistant_icon.jpg', width: 24,height: 24,), // Replace with actual image icon
+          child: Image.asset('assests/chat_bot_assistant_icon.png', width: 24,height: 24,), // Replace with actual image icon
         ),
         title: Text('Mnnit GPT', style: TextStyle(
             color: AppColors.text_color,

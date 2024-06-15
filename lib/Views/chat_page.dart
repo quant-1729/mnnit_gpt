@@ -10,8 +10,9 @@ import '../utils/constants.dart';
 
 class ChatPage extends StatefulWidget {
   final ChatRoomModel chatroom;
+  final String first_message;
 
-  ChatPage({super.key, required this.chatroom});
+  ChatPage({super.key, required this.chatroom, required this.first_message});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -20,8 +21,18 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   TextEditingController messageController = TextEditingController();
 
-  Future<void> sendMessage() async {
-    String msg = messageController.text.trim();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.first_message.isNotEmpty) {
+      sendMessage(widget.first_message);
+    }
+  }
+
+  Future<void> sendMessage(String message) async {
+    String msg = message;
     messageController.clear();
 
     if (msg.isNotEmpty) {
@@ -151,7 +162,7 @@ class _ChatPageState extends State<ChatPage> {
                 Spacer(),
                 Flexible(child: TextInput("Ask something", messageController)),
                 Spacer(),
-                SendIcon(20, sendMessage),
+                SendIcon(20,() => sendMessage(messageController.text.toString().trim())),
               ],
             ),
           ],
@@ -248,7 +259,6 @@ Widget usermessagecard(String message, String dateandtime) {
     ),
   );
 }
-
 Widget rasamessage(String message ,String dateandtime ){
   return Padding(
     padding: const EdgeInsets.all(16.0),
@@ -257,7 +267,7 @@ Widget rasamessage(String message ,String dateandtime ){
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset('assests/chat_bot_assistant_icon.jpg', width: 40 , height:40,),
+        Image.asset('assests/chat_bot_assistant_icon.png', width: 40 , height:40,),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,

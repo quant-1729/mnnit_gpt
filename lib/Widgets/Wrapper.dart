@@ -5,30 +5,50 @@ import 'package:mnnit_gpt/Views/intro_screen.dart';
 import 'package:mnnit_gpt/Views/login_page.dart';
 import 'package:mnnit_gpt/Views/home.dart';
 import 'package:mnnit_gpt/models/user_model.dart';
- class Wrapper extends StatelessWidget {
-   Wrapper({super.key});
+import 'package:mnnit_gpt/Views/loading_screen.dart'; // Import the loading screen
 
-   UserModel userModel= UserModel();
-   Future<void> UserData() async{
-     WidgetsFlutterBinding.ensureInitialized();
-     Firebase.initializeApp();
-     User? currentUser = FirebaseAuth.instance.currentUser;
-     userModel.email= currentUser!.email;
-     userModel.uid= currentUser!.uid;
-     print(userModel.email);
+class Wrapper extends StatelessWidget {
+  Wrapper({super.key});
+  UserModel userModel = UserModel();
 
-   }
+  Future<void> UserData() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      userModel.email = currentUser.email;
+      userModel.uid = currentUser.uid;
+      print(userModel.email);
+    }
+  }
 
-   @override
-   Widget build(BuildContext context) {
-     return StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context,snapshot){
-       if(snapshot.hasData){
-         UserData();
-         return HomePage();
-       }
-       else{
-         return LoginScreen();
-       }
-     });
-   }
- }
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingScreen(); // Show loading screen while initializing
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            body: Center(
+              child: Text('Error initializing Firebase'),
+            ),
+          );
+        } else {
+          return StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, authSnapshot) {
+              if (authSnapshot.connectionState == ConnectionState.waiting) {
+                return LoadingScreen(); // Show loading screen while checking auth state
+              } else if (authSnapshot.hasData) {
+                UserData();
+                return HomePage();
+              } else {
+                return LoginScreen();
+              }
+            },
+          );
+        }
+      },
+    );
+  }
+}

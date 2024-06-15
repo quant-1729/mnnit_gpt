@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mnnit_gpt/Views/about_page.dart';
 import 'package:mnnit_gpt/models/chat_room_model.dart';
 import 'package:mnnit_gpt/utils/constants.dart';
 import 'package:mnnit_gpt/Widgets/simple_button.dart';
@@ -21,16 +22,22 @@ class _HomePageState extends State<HomePage> {
   ChatRoomModel chatRoomModel = ChatRoomModel();
   var uuid = Uuid();
 
-  sendmessage() async {
+  sendmessage(String first_message) async {
     // Creating a new uid for the chatroom
     String chat_room_id = uuid.v4();
     // Extracting the first message
+
     chatRoomModel.chatroomid = chat_room_id;
-    chatRoomModel.firstmessage = messageController.text.toString();
+    chatRoomModel.firstmessage = first_message;
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ChatPage(chatroom: chatRoomModel)),
+      MaterialPageRoute(
+        builder: (context) => ChatPage(
+          chatroom: chatRoomModel,
+          first_message: first_message,
+        ),
+      ),
     );
   }
 
@@ -54,15 +61,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Spacer(),
-            SimpleButton(
-              text: "Login",
-              backroundcolor: AppColors.Button_background,
-              textcolor: Colors.white,
-              height: 18,
-              onPressed: () {},
-              borderradius: 30,
-              border_color: AppColors.Button_background,
-            )
+           IconButton(onPressed: (){
+             Navigator.push(
+               context,
+               MaterialPageRoute(
+                 builder: (context) => AboutPage()
+               ),
+             );
+           }, icon: Icon(Icons.info))
           ],
         ),
         leading: Builder(
@@ -132,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: 40),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 reverse: true,
@@ -143,18 +149,27 @@ class _HomePageState extends State<HomePage> {
                       AppColors.Button_background,
                       "Try bug",
                       " I'm going to make it short and succinct. I invested a lot of time in LinkedIn content marketing and it is generating results so far. If you have a B2B product on a tight budget, this miniguide can give you some ideas. Pros: Requires zero can bring customers and puts you in always-on networking mode",
+                          () {
+                        sendmessage("Mnnit");
+                      },
                     ),
                     SizedBox(width: 10),
                     HorizontalCard(
                       Colors.lightGreenAccent,
                       "Try bug",
                       " I'm going to make it short and succinct. I invested a lot of time in LinkedIn content marketing and it is generating results so far. If you have a B2B product on a tight budget, this miniguide can give you some ideas. Pros: Requires zero can bring customers and puts you in always-on networking mode",
+                          () {
+                        sendmessage("Mnnit");
+                      },
                     ),
                     SizedBox(width: 10),
                     HorizontalCard(
                       Colors.orange,
                       "Try bug",
                       " I'm going to make it short and succinct. I invested a lot of time in LinkedIn content marketing and it is generating results so far. If you have a B2B product on a tight budget, this miniguide can give you some ideas. Pros: Requires zero can bring customers and puts you in always-on networking mode",
+                          () {
+                        sendmessage("Mnnit");
+                      },
                     ),
                   ],
                 ),
@@ -168,7 +183,9 @@ class _HomePageState extends State<HomePage> {
                     Spacer(),
                     Flexible(child: TextInput("Ask something", messageController)),
                     Spacer(),
-                    SendIcon(20, sendmessage),
+                    SendIcon(20, () {
+                      sendmessage(messageController.text.toString().trim());
+                    }),
                   ],
                 ),
               ),
@@ -179,7 +196,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget HorizontalCard(Color iconColor, String title, String description) {
+  Widget HorizontalCard(Color iconColor, String title, String description, VoidCallback onpressed) {
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFFF5F5F6),
@@ -233,8 +250,8 @@ class _HomePageState extends State<HomePage> {
                     text: "Get Answer",
                     backroundcolor: iconColor,
                     textcolor: Colors.white,
-                    height: 20,
-                    onPressed: () {},
+                    height: 30,
+                    onPressed: onpressed,
                     borderradius: 10,
                     border_color: iconColor,
                   ),
@@ -243,8 +260,8 @@ class _HomePageState extends State<HomePage> {
                     text: "Edit Prompt",
                     backroundcolor: Colors.white,
                     textcolor: iconColor,
-                    height: 20,
-                    onPressed: () {},
+                    height: 30,
+                    onPressed: onpressed,
                     borderradius: 10,
                     border_color: iconColor,
                   ),
