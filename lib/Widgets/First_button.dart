@@ -8,7 +8,7 @@ class FirstButton extends StatelessWidget {
   final double height;
   final VoidCallback onPressed;
   final double borderradius;
-  final Icon icon;
+  final Image image;
   final Color circle_avatar_Color;
 
   const FirstButton({
@@ -18,7 +18,7 @@ class FirstButton extends StatelessWidget {
     required this.height,
     required this.onPressed,
     required this.borderradius,
-    required this.icon,
+    required this.image,
     required this.circle_avatar_Color,
 
 
@@ -41,7 +41,7 @@ class FirstButton extends StatelessWidget {
 
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.only(right: 16,top: 12, bottom: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
 
@@ -49,7 +49,7 @@ class FirstButton extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: circle_avatar_Color,
                 child: Center(
-                    child: icon),
+                    child: image),
               ),
               SizedBox(width: 20,),
               Center(

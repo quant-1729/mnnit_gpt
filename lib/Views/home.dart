@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mnnit_gpt/Views/Settings/Settings_page.dart';
 import 'package:mnnit_gpt/Views/Settings/about_page.dart';
 import 'package:mnnit_gpt/models/chat_room_model.dart';
+import 'package:mnnit_gpt/models/user_model.dart';
 import 'package:mnnit_gpt/utils/constants.dart';
 import 'package:mnnit_gpt/Widgets/simple_button.dart';
 import 'package:mnnit_gpt/Views/drawer.dart';
@@ -12,7 +13,8 @@ import 'package:uuid/uuid.dart';
 import 'chat_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final UserModel usermodel;
+  const HomePage({super.key, required this.usermodel});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,7 +28,6 @@ class _HomePageState extends State<HomePage> {
     // Creating a new uid for the chatroom
     String chat_room_id = uuid.v4();
     // Extracting the first message
-
     chatRoomModel.chatroomid = chat_room_id;
     chatRoomModel.firstmessage = first_message;
 
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder: (context) => ChatPage(
+          userid: widget.usermodel.uid!,
           chatroom: chatRoomModel,
           first_message: first_message,
         ),
@@ -83,7 +85,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: Drawer(
-        child: Drawer_home(),
+        child: Drawer_home(userModel: widget.usermodel),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -143,29 +145,29 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         children: [
                           HorizontalCard(
-                            AppColors.Button_background,
-                            "Try bug",
-                            " I'm going to make it short and succinct. I invested a lot of time in LinkedIn content marketing and it is generating results so far. If you have a B2B product on a tight budget, this miniguide can give you some ideas. Pros: Requires zero can bring customers and puts you in always-on networking mode",
+                            Colors.lightGreenAccent,
+                            "Try",
+                            " Tell me about robotics club",
                                 () {
-                              sendmessage("Mnnit");
+                              sendmessage("Tell me about robotics club");
                             },
                           ),
                           SizedBox(width: 10),
                           HorizontalCard(
-                            Colors.lightGreenAccent,
-                            "Try bug",
-                            " I'm going to make it short and succinct. I invested a lot of time in LinkedIn content marketing and it is generating results so far. If you have a B2B product on a tight budget, this miniguide can give you some ideas. Pros: Requires zero can bring customers and puts you in always-on networking mode",
+                            AppColors.Button_background,
+                            "Try ",
+                            "Tell me about the Warden's office at MNNIT",
                                 () {
-                              sendmessage("Mnnit");
+                              sendmessage("Tell me about the Warden's office at MNNIT");
                             },
                           ),
                           SizedBox(width: 10),
                           HorizontalCard(
                             Colors.orange,
-                            "Try bug",
-                            " I'm going to make it short and succinct. I invested a lot of time in LinkedIn content marketing and it is generating results so far. If you have a B2B product on a tight budget, this miniguide can give you some ideas. Pros: Requires zero can bring customers and puts you in always-on networking mode",
+                            "Try ",
+                            "Who is the director of Mnnit",
                                 () {
-                              sendmessage("Mnnit");
+                              sendmessage("Who is the director of Mnnit");
                             },
                           ),
                         ],

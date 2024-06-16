@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mnnit_gpt/models/chat_room_model.dart';
+import 'package:mnnit_gpt/models/user_model.dart';
 import 'package:mnnit_gpt/utils/constants.dart';
 
 class Drawer_home extends StatefulWidget {
-  const Drawer_home({super.key});
+  UserModel userModel;
+   Drawer_home({super.key, required this.userModel});
 
   @override
   State<Drawer_home> createState() => _Drawer_homeState();
@@ -25,7 +27,8 @@ class _Drawer_homeState extends State<Drawer_home> {
 
   // Fetching the chatrooms for search
   void fetchChatRooms() async {
-    FirebaseFirestore.instance
+    FirebaseFirestore.instance.
+    collection("User").doc(widget.userModel.uid)
         .collection('chatrooms')
         .snapshots()
         .listen((snapshot) {
@@ -46,7 +49,8 @@ class _Drawer_homeState extends State<Drawer_home> {
       });
     } else {
       // Query Firestore for chat rooms where the first message starts with the search text
-      QuerySnapshot snapshot = await FirebaseFirestore.instance
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.
+      collection("User").doc(widget.userModel.uid)
           .collection('chatrooms')
           .where('firstmessage', isGreaterThanOrEqualTo: query)
           .where('firstmessage', isLessThanOrEqualTo: query + '\uf8ff')
@@ -134,7 +138,9 @@ class _Drawer_homeState extends State<Drawer_home> {
           Text("Chat History"),
           Expanded(
             child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('chatrooms').snapshots(),
+              stream: FirebaseFirestore.instance.
+                  collection("User").doc(widget.userModel.uid).
+              collection('chatrooms').snapshots(),
               builder: (context, snapshot){
                 if(snapshot.connectionState==ConnectionState.active){
                   QuerySnapshot datasnapshot= snapshot.data as QuerySnapshot;

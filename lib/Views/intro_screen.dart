@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mnnit_gpt/Views/login_page.dart';
+import 'package:mnnit_gpt/Views/sign_up.dart';
 import 'package:mnnit_gpt/utils/constants.dart';
 import 'package:mnnit_gpt/Widgets/First_button.dart';
 import 'package:mnnit_gpt/Widgets/simple_button.dart';
@@ -85,9 +87,10 @@ class IntoScreen extends StatelessWidget {
                     backroundcolor: AppColors.Button_background,
                     textcolor: Colors.white,
                     height: 60,
-                    onPressed: () {},
+                    onPressed: () {
+                      },
                     borderradius: 10,
-                    icon: Icon(Icons.g_mobiledata, color: AppColors.Button_background,),
+                    image: Image.asset('assests/google.png'),
                     circle_avatar_Color: Colors.white,
                   ),
                   SizedBox(height: 10),
@@ -96,9 +99,16 @@ class IntoScreen extends StatelessWidget {
                     backroundcolor: Color(0xFFEEEEFF),
                     textcolor: AppColors.Button_background,
                     height: 60,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignUp()
+                        ),
+                      );
+                    },
                     borderradius: 10,
-                    icon: Icon(Icons.mail_outlined, color: AppColors.Button_background,),
+                    image: Image.asset('assests/gmail.png'),
                     circle_avatar_Color: Color(0xFFEEEEFF),
                   ),
                   SizedBox(height: 10),
@@ -107,7 +117,15 @@ class IntoScreen extends StatelessWidget {
                     backroundcolor: Colors.white,
                     textcolor: AppColors.Button_background,
                     height: 60,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginPage()
+                        ),
+                      );
+
+                    },
                     borderradius: 10,
                     border_color: AppColors.Button_background,
                   ),

@@ -11,8 +11,8 @@ import '../utils/constants.dart';
 class ChatPage extends StatefulWidget {
   final ChatRoomModel chatroom;
   final String first_message;
-
-  ChatPage({super.key, required this.chatroom, required this.first_message});
+  final String userid;
+  ChatPage({super.key, required this.chatroom, required this.first_message, required this.userid});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -45,7 +45,8 @@ class _ChatPageState extends State<ChatPage> {
         text: msg,
       );
 
-      await FirebaseFirestore.instance
+      await FirebaseFirestore.instance.
+          collection("User").doc(widget.userid)
           .collection("chatrooms")
           .doc(widget.chatroom.chatroomid)
           .collection("messages")
@@ -53,7 +54,8 @@ class _ChatPageState extends State<ChatPage> {
           .set(newMessage.toMap());
 
       widget.chatroom.firstmessage = msg;
-      await FirebaseFirestore.instance
+      await FirebaseFirestore.instance.
+      collection("User").doc(widget.userid)
           .collection("chatrooms")
           .doc(widget.chatroom.chatroomid)
           .set(widget.chatroom.toMap());
@@ -71,7 +73,8 @@ class _ChatPageState extends State<ChatPage> {
         );
         // Sending the reasa response to the firebase
 
-        await FirebaseFirestore.instance
+        await FirebaseFirestore.instance.
+        collection("User").doc(widget.userid)
             .collection("chatrooms")
             .doc(widget.chatroom.chatroomid)
             .collection("messages")
@@ -109,13 +112,14 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Expanded(
         child: Column(
           children: [
             SizedBox(height: 20),
             Expanded(
               child: StreamBuilder(
-                stream: FirebaseFirestore.instance
+                stream: FirebaseFirestore.instance.
+                collection("User").doc(widget.userid)
                     .collection("chatrooms")
                     .doc(widget.chatroom.chatroomid)
                     .collection("messages")
@@ -154,16 +158,19 @@ class _ChatPageState extends State<ChatPage> {
                 },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                MicrophoneIcon(20),
-                Spacer(),
-                Flexible(child: TextInput("Ask something", messageController)),
-                Spacer(),
-                SendIcon(20,() => sendMessage(messageController.text.toString().trim())),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  MicrophoneIcon(25),
+                  SizedBox(width:8,),
+                  Expanded(child: TextInput("Ask something", messageController)),
+                  SizedBox(width: 8,),
+                  SendIcon(25,() => sendMessage(messageController.text.toString().trim())),
+                ],
+              ),
             ),
           ],
         ),

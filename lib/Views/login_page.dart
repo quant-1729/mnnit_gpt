@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mnnit_gpt/Views/sign_up.dart';
 import 'package:mnnit_gpt/Widgets/First_button.dart';
@@ -52,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                SizedBox(height: 40,),
                 Text(
                   'Welcome back to login!',
                   style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
@@ -109,7 +112,10 @@ class _LoginPageState extends State<LoginPage> {
                         border: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
+
                       ),
+                      textAlign: TextAlign.start,
+                      textAlignVertical: TextAlignVertical.center,
                     ),
                   ),
                 ),
@@ -157,6 +163,8 @@ class _LoginPageState extends State<LoginPage> {
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                       ),
+                      textAlignVertical: TextAlignVertical.center,
+                      textAlign: TextAlign.start,
                     ),
                   ),
                 ),
@@ -200,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                 SimpleButton(text: "Login", backroundcolor: AppColors.Button_background, textcolor: Colors.white, height: 60, onPressed: (){
                   if(_formkey.currentState!.validate()){
                     _formkey.currentState!.save();
-                    Sign(email, password);
+                    Sign(context, email, password);
                   }
 
                 }, borderradius: 10, border_color: AppColors.Button_background),
@@ -216,10 +224,20 @@ class _LoginPageState extends State<LoginPage> {
                   backroundcolor: Colors.white,
                   textcolor: AppColors.Button_background,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      UserCredential userCredential = await signInWithGoogle(context);
+
+                      // Handle successful sign-in
+                      print('User signed in: ${userCredential.user}');
+                    } catch (e) {
+                    // Handle error
+                    print('Error signing in with Google: $e');
+                    }
+                  },
                   borderradius: 10,
-                  icon: Icon(Icons.g_mobiledata, color: Colors.white,),
-                  circle_avatar_Color: AppColors.Button_background,
+                  image: Image.asset('assests/google.png'),
+                  circle_avatar_Color: Colors.white,
                 ),
                 SizedBox(height: 20,),
                 Row(

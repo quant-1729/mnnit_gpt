@@ -11,9 +11,11 @@ class MeetDeveloperPage extends StatelessWidget {
 
   // Function to launch URLs
   void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
+    final Uri uri = Uri.parse(url);
+    try {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+    catch (e){
       throw 'Could not launch $url';
     }
   }
@@ -37,7 +39,8 @@ class MeetDeveloperPage extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
                     ),
                     image: DecorationImage(
                       image: AssetImage('assests/background.jpg'), // Replace with your background image path
@@ -57,7 +60,7 @@ class MeetDeveloperPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 80), // Adjust this value to provide space below the avatar
-            // Section: Meet the Develope
+            // Section: Meet the Developer
             // Developer name
             Text(
               'Priyanshu Agrawal',
@@ -70,7 +73,7 @@ class MeetDeveloperPage extends StatelessWidget {
             SizedBox(height: 16),
 
             Text(
-              'Connect with me ',
+              'Connect with me',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -82,18 +85,18 @@ class MeetDeveloperPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                  icon: Image.asset('assests/Linkedin.png',height: 80, width: 80,),
+                  icon: Image.asset('assests/Linkedin.png', height: 80, width: 80),
                   onPressed: () => _launchURL(linkedinUrl),
                 ),
                 SizedBox(width: 10),
                 // GitHub icon as text
                 IconButton(
-                  icon: Image.asset('assests/github.png',height: 90, width: 90,),
+                  icon: Image.asset('assests/github.png', height: 90, width: 90),
                   onPressed: () => _launchURL(githubUrl),
                 ),
                 SizedBox(width: 10),
                 IconButton(
-                  icon: Image.asset('assests/Instagram.png',height: 80, width: 80,),
+                  icon: Image.asset('assests/Instagram.png', height: 80, width: 80),
                   onPressed: () => _launchURL(instagramUrl),
                 ),
               ],

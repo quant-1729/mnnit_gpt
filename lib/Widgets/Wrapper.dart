@@ -42,9 +42,9 @@ class Wrapper extends StatelessWidget {
                 return LoadingScreen(); // Show loading screen while checking auth state
               } else if (authSnapshot.hasData) {
                 UserData();
-                return HomePage();
+                return HomePage(usermodel: userModel,);
               } else {
-                return LoginScreen();
+                return IntoScreen();
               }
             },
           );

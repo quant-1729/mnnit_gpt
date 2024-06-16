@@ -6,13 +6,15 @@ import 'package:mnnit_gpt/Views/home.dart';
 import 'package:mnnit_gpt/Views/intro_screen.dart';
 import 'package:mnnit_gpt/Views/chat_page.dart';
 import 'package:mnnit_gpt/Views/Settings/about_page.dart';
+import 'package:mnnit_gpt/Views/splash_screen.dart';
 
 class routes {
   static Map<String, WidgetBuilder> getRoutes() {
     return {
      '/SignUpPage':(context) => SignUp(),
       '/LoginPage':(context) => LoginScreen(),
-      '/AboutPage':(context) => AboutAppPage()
+      '/AboutPage':(context) => AboutAppPage(),
+      '/SplashScreen':(context) => SplashScreen()
 
 
     };
