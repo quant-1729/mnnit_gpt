@@ -65,7 +65,7 @@ class _Drawer_homeState extends State<Drawer_home> {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -87,7 +87,7 @@ class _Drawer_homeState extends State<Drawer_home> {
               },
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
             ),
           ),
@@ -96,10 +96,10 @@ class _Drawer_homeState extends State<Drawer_home> {
             children: [
               Image.asset(
                 'assests/chat_bot_assistant_icon.png',
-                width: 20,
-                height: 20,
+                width: 40,
+                height: 40,
               ),
-              SizedBox(width: 40),
+              SizedBox(width: 20),
               Text(
                 "Mnnit GPT",
                 style: TextStyle(
@@ -115,9 +115,9 @@ class _Drawer_homeState extends State<Drawer_home> {
             children: [
               Icon(
                 Icons.language,
-                size: 20,
+                size: 40,
               ),
-              SizedBox(width: 40),
+              SizedBox(width: 20),
               Text(
                 "Community",
                 style: TextStyle(
@@ -130,6 +130,8 @@ class _Drawer_homeState extends State<Drawer_home> {
           ),
           SizedBox(height: 10,),
           Divider(color: Colors.grey,),
+          SizedBox(height: 6,),
+          Text("Chat History"),
           Expanded(
             child: StreamBuilder(
               stream: FirebaseFirestore.instance.collection('chatrooms').snapshots(),
@@ -139,22 +141,19 @@ class _Drawer_homeState extends State<Drawer_home> {
                   List<ChatRoomModel> chatrooms= datasnapshot.docs.map((doc){
                     return ChatRoomModel.fromMap(doc.data() as Map<String, dynamic>);
                   }).toList();
-
                   return ListView.builder(
-                      itemCount: chatrooms.length,
-                      itemBuilder: (context, index){
-                        ChatRoomModel chatroom = chatrooms[index];
-                        return ListTile(
-                          title: Text(chatroom.firstmessage.toString()),
-                          onTap: (){
-                            //Navigating to the chatpage
-
-                          },
-
-                        );
-
-                      },
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Adjust padding as needed
+                    itemCount: chatrooms.length,
+                    itemBuilder: (context, index){
+                      ChatRoomModel chatroom = chatrooms[index];
+                      return ListTile(
+                        title: Text(chatroom.firstmessage.toString()),
+                        onTap: (){
+                          // Navigating to the chatpage
+                        },
                       );
+                    },
+                  );
 
 
                 }

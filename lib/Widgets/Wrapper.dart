@@ -5,7 +5,8 @@ import 'package:mnnit_gpt/Views/intro_screen.dart';
 import 'package:mnnit_gpt/Views/login_page.dart';
 import 'package:mnnit_gpt/Views/home.dart';
 import 'package:mnnit_gpt/models/user_model.dart';
-import 'package:mnnit_gpt/Views/loading_screen.dart'; // Import the loading screen
+import 'package:mnnit_gpt/Views/loading_screen.dart';
+import 'package:mnnit_gpt/Views/home.dart';// Import the loading screen
 
 class Wrapper extends StatelessWidget {
   Wrapper({super.key});
