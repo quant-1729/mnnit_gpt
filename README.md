@@ -1,6 +1,8 @@
-Mnnit_GPT
+
+## Mnnit_GPT
 
 This application provides real-time responses to queries using an AI chatbot model designed to give information about a college. It supports saving chat history and includes additional features developed over time, aimed at enhancing user experience during interactions.
+
 ## Index
 
 - Introduction
@@ -12,8 +14,7 @@ This application provides real-time responses to queries using an AI chatbot mod
 - Contributions
 
 
-
-Features
+## Features
 
 - Real-time responses to queries using NLP dataset
 - Storage of chat history in Firebase database accessible via the app's drawing room
@@ -78,16 +79,17 @@ Machine learning components developed under the guidance of the Robotics Club an
 
 
 ## Screenshots
+![Intro_page](https://github.com/quant-1729/mnnit_gpt/assets/125037247/86148489-8b03-4d31-9fa7-e5cde804f9f0)
+![Logout_alert_dialog](https://github.com/quant-1729/mnnit_gpt/assets/125037247/1717253d-1873-47eb-93e7-becb1cf623e1)
+![chat_page_ex_1](https://github.com/quant-1729/mnnit_gpt/assets/125037247/1d6e1c1d-fe43-49e8-95e3-6fbd6efd0357)
+![login_page](https://github.com/quant-1729/mnnit_gpt/assets/125037247/3543cec1-60ca-4258-bf3c-49a62211a861)
+![Sign_up page ](https://github.com/quant-1729/mnnit_gpt/assets/125037247/92faecbb-d382-43dd-a6e9-74ed376e3922)
+![Uploading Intro_page.jpeg…]()
+![Home_page](https://github.com/quant-1729/mnnit_gpt/assets/125037247/71e75c1f-40e4-46bd-9427-98dc4f51b3fa)
+![Drawer_page](https://github.com/quant-1729/mnnit_gpt/assets/125037247/fb7d398a-c7c0-4f59-af1c-42368d715b8f)
+![Settings_page](https://github.com/quant-1729/mnnit_gpt/assets/125037247/206562c9-9ea4-457a-83ea-a7c5b752eec8)
+![About_page](https://github.com/quant-1729/mnnit_gpt/assets/125037247/8a5c5068-c861-4d85-a020-1e1371b313b1)
+![Developer's page ](https://github.com/quant-1729/mnnit_gpt/assets/125037247/c896f451-65d8-4f30-ba6a-2ecca365d9de)
+![Contactus_page](https://github.com/quant-1729/mnnit_gpt/assets/125037247/012bf7d9-d8f8-40d5-b2b0-881433e84f13)
 
-![chat_page_ex_1.jpeg](..%2F..%2FDownloads%2Fchat_page_ex_1.jpeg)
-![Logout_alert_dialog.jpeg](..%2F..%2FDownloads%2FLogout_alert_dialog.jpeg)
-![Contactus_page.jpeg](..%2F..%2FDownloads%2FContactus_page.jpeg)
-![Developer's page .jpeg](..%2F..%2FDownloads%2FDeveloper%27s%20page%20.jpeg)
-![About_page.jpeg](..%2F..%2FDownloads%2FAbout_page.jpeg)
-![Settings_page.jpeg](..%2F..%2FDownloads%2FSettings_page.jpeg)
-![Drawer_page.jpeg](..%2F..%2FDownloads%2FDrawer_page.jpeg)
-![Home_page.jpeg](..%2F..%2FDownloads%2FHome_page.jpeg)
-![Intro_page.jpeg](..%2F..%2FDownloads%2FIntro_page.jpeg)
-![Sign_up page .jpeg](..%2F..%2FDownloads%2FSign_up%20page%20.jpeg)
-![login_page.jpeg](..%2F..%2FDownloads%2Flogin_page.jpeg)
 
